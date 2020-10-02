@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список книг нашей библиотеки</title>
+    <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<table class="books">
+    <thead>
+    <tr>
+        <th>Имя книги</th>
+        <th>Имя автора книги</th>
+        <th>Название жанра</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script>
+        $(function () {
+            $.get('api/books').done(function (books) {
+                books.forEach(function (book) {
+                    $('tbody').append(`
+                        <tr>
+                            <td>${book.name}</td>
+                            <td>${book.author.name}</td>
+                            <td>${book.genre.genreName}</td>
+                            <td><a href="edit?id=${book.id}">Изменить</a></td>
+                            <td>
+                                 <form id="delete-book" action="delete?id=${book.id}" method="post">
+                                    <button type="submit">Удалить</button>
+                                </form
+                            </td>
+                        </tr>
+                    `)
+                });
+            })
+        });
+</script>
+
+<a href="save">Добавить новую книгу</a>
+</body>
+</html>
