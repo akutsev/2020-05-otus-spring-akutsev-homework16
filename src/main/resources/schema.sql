@@ -1,0 +1,34 @@
+DROP TABLE IF EXISTS genres cascade;
+DROP TABLE IF EXISTS authors cascade;
+DROP TABLE IF EXISTS books cascade;
+DROP TABLE IF EXISTS comments;
+
+CREATE TABLE genres (
+  ID IDENTITY NOT NULL,
+  GENRE_NAME VARCHAR(250) NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE authors (
+  ID IDENTITY NOT NULL,
+  NAME VARCHAR(250) NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE books (
+  ID IDENTITY NOT NULL,
+  NAME VARCHAR(250) NOT NULL,
+  AUTHOR_ID BIGINT NOT NULL,
+  GENRE_ID BIGINT NOT NULL,
+  PRIMARY KEY (ID),
+  foreign key (AUTHOR_ID) references authors(ID),
+  foreign key (GENRE_ID) references genres(ID)
+);
+
+CREATE TABLE comments (
+  ID IDENTITY NOT NULL,
+  TEXT VARCHAR(250) NOT NULL,
+  BOOK_ID BIGINT,
+  PRIMARY KEY (ID),
+  foreign key (BOOK_ID) references books(ID) ON DELETE CASCADE
+);
